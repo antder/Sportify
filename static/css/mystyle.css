@@ -1,0 +1,42 @@
+#bodyhome {
+    background-image: url("../images/login.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#jumbohome {
+    background: rgba(0,50,0,0.9);
+    margin: auto;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    max-width: 25%;
+    min-width: 300px;
+    text-align: center;
+    color: white;
+}
+
+#titlename {
+    color: green;
+}
+
+#bodysite {
+    background-color: black;
+    background-image: url("../images/backsite.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+#jumbomain {
+    background: rgba(0,0,0,0);
+    text-align: center;
+    color: green;
+}
+
+#ControlSelect {
+    margin: auto;
+    max-width: 10%;
+}
+
+#wrong { color: red; }
+
+a { color: YellowGreen; }

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Accedi a Sportify</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css">
+</head>
+<body id="bodyhome">
+<div class="container" id="fill"></div>
+<div class="jumbotron" id="jumbohome">
+    <div class="container">
+        <h1 id="titlename">Sportify</h1>
+        {% with errori = get_flashed_messages() %}
+            {% if errori %}
+                {% for errore in errori %}
+                    <div class="alert alert-danger" id="wrong" role="alert">{{ errore }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST" action="{{url_for('login')}}">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" name="username" id="Username" placeholder="Inserire username" maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" name="pw" id="Password" placeholder="Password" maxlength="20" required>
+            </div>
+            <button type="submit" class="btn btn-success">Login</button>
+        </form>
+        <br>
+        <p>Non sei ancora registrato? <br> Clicca <a href="{{ url_for('register') }}">qui</a> per creare un account</p>
+    </div>
+</div>
+</body>
+</html>

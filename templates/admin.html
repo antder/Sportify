@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Sportify</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css">
+</head>
+<body id="bodysite">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <a class="navbar-brand mb-0 h1" href="{{ url_for('home') }}">Sportify</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <form class="form-inline my-2 my-lg-0" method="POST" action="{{url_for('search')}}">
+            <div class="form-group">
+                <input class="form-control mr-sm-2" name="codice" type="search" placeholder="Codice evento" aria-label="Codice evento">
+                <button class="btn btn-dark my-2 my-sm-0" type="submit">Cerca</button>
+            </div>
+        </form>
+        <ul class="navbar-nav">
+            <a class="nav-item nav-link active" href="{{ url_for('home')}}">Home</a>
+            <a class="nav-item nav-link active" href="{{ url_for('sport')}}">Sport</a>
+            <a class="nav-item nav-link active" href="{{ url_for('team') }}">Team</a>
+            <a class="nav-item nav-link active" href="{{ url_for('admin')}}">Pannello Amministrazione</a>
+            <a class="nav-item nav-link active text-danger" href="{{ url_for('logout')}}">Logout</a>
+        </ul>
+    </div>
+    <span class="navbar-text text-warning">Accesso effettuato come {{session['username']}}</span>
+</nav>
+<div class="jumbotron" id="jumbomain">
+    <h1>Pannello Amministrazione</h1>
+    <br>
+    {% with messaggi = get_flashed_messages() %}
+        {% if messaggi %}
+            {% for messaggio in messaggi %}
+                <div class="alert alert-warning" role="alert">{{ messaggio }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mx-md-auto">
+                <h3>Aggiungi uno sport</h3>
+                <br>
+                <form method="POST" action="{{url_for('addsport')}}">
+                    <div class="form-group">
+                        <label for="Newsport">Nome sport</label>
+                        <input type="text" class="form-control" name="newsport" id="Newsport" placeholder="Nome Sport" maxlength="50" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Aggiungi</button>
+                </form>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mx-md-auto">
+                <h3>Aggiungi un evento</h3>
+                <br>
+                <form method="POST" action="{{url_for('addevent')}}">
+                    <div class="form-group">
+                        <label for="Newevent">Codice evento</label>
+                        <input type="text" class="form-control" name="neweventid" id="Newevent" placeholder="Codice evento" maxlength="10" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="Neweventsport">Seleziona evento</label>
+                        <select class="form-control" name="neweventsport" id="Neweventsport" required>
+                            {% set nsports = session.database.sports.find({}) %}
+                            {% for opzione in nsports %}
+                                <option>{{ opzione.title }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataevento">Data evento</label>
+                        <input type="date" class="form-control" id=dataevento" name="neweventdate" required>
+                    </div>
+                <div class="form-group">
+                    <label for="oraevento">Orario</label>
+                    <input type="time" class="form-control" id="oraevento" name="neweventhour" required>
+                </div>
+                    <button type="submit" class="btn btn-success">Aggiungi</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

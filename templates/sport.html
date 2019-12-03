@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Sportify</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css">
+</head>
+<body id="bodysite">
+<nav class="navbar navbar-expand-lg navbar-light bg-success">
+    <a class="navbar-brand mb-0 h1" href="{{ url_for('home') }}">Sportify</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <form class="form-inline my-2 my-lg-0" method="POST" action="{{url_for('search')}}">
+            <div class="form-group">
+                <input class="form-control mr-sm-2" name="codice" type="search" placeholder="Codice evento" aria-label="Codice evento">
+                <button class="btn btn-dark my-2 my-sm-0" type="submit">Cerca</button>
+            </div>
+        </form>
+        <ul class="navbar-nav">
+            <a class="nav-item nav-link active" href="{{ url_for('home')}}">Home</a>
+            <a class="nav-item nav-link active" href="{{ url_for('sport')}}">Sport</a>
+            <a class="nav-item nav-link active" href="{{ url_for('team') }}">Team</a>
+            {% if session['username'] == "admin" %}
+                <a class="nav-item nav-link active" href="{{ url_for('admin')}}">Pannello Amministrazione</a>
+            {% endif %}
+            <a class="nav-item nav-link active text-danger" href="{{ url_for('logout')}}">Logout</a>
+        </ul>
+    </div>
+    <span class="navbar-text text-warning">Accesso effettuato come {{session['username']}}</span>
+</nav>
+<div class="jumbotron" id="jumbomain">
+    <h1>Sport</h1>
+    <br>
+    {% with errori = get_flashed_messages() %}
+        {% if errori %}
+            {% for errore in errori %}
+                <div class="alert alert-warning" role="alert">{{ errore }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mx-md-auto">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="bg-success">
+                        <th scope="col">Sport praticati</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% set utente = session.database.users.find_one({'name':session['username']}) %}
+                    {% for sport in utente.sports %}
+                        <tr class="bg-secondary">
+                            <td>{{ sport }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md mx-md-auto">
+                <h2>Seleziona sport</h2>
+                <form method="POST" action="{{ url_for('aggiungi') }}">
+                    <div class="form-group">
+                        <label for="ControlSelect">Seleziona sport da aggiungere</label>
+                        <select class="form-control" name="add" id="ControlSelect" required>
+                            {% set nsports = session.database.sports.find({}) %}
+                            {% for opzione in nsports %}
+                                <option>{{ opzione.title }}</option>
+                            {% endfor %}
+                        </select>
+                        <br>
+                        <button class="btn btn-success" name="add" type="submit">Aggiungi</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

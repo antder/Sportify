@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrati su Sportforlife</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/mystyle.css">
+</head>
+<body id="bodyhome">
+<div class="container" id="fill"></div>
+<div class="jumbotron" id="jumbohome">
+    <div class="container">
+        <h1 id="titlename">Registrazione</h1>
+        {% with errori = get_flashed_messages() %}
+            {% if errori %}
+                {% for errore in errori %}
+                    <div class="alert alert-danger" id="wrong" role="alert">{{ errore }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method=POST action="{{ url_for('register') }}">
+            <div class="form-group">
+                <label for="Username">Username</label>
+                <input type="text" class="form-control" name="username" id="Username" aria-describedby="username" placeholder="Username" maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" class="form-control" name="pw" id="Password" aria-describedby="password" placeholder="Password" maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email" aria-describedby="email" placeholder="esempio@email.com" required>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success btn-block">Registrati</button>
+            <br>
+            <p>Possiedi gi&agrave; un account? <br> <a href="{{ url_for('index') }}">accedi!</a></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>
